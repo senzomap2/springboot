@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Wizard-v1</title>
+	<!-- Mobile Specific Metas -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<!-- Font-->
+	<link rel="stylesheet" type="text/css" href="css/raleway-font.css">
+	<link rel="stylesheet" type="text/css" href="fonts/material-design-iconic-font/css/material-design-iconic-font.min.css">
+	<!-- Jquery -->
+	<link rel="stylesheet" href="https://jqueryvalidation.org/files/demo/site-demos.css">
+	<!-- Main Style Css -->
+    <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+	<div class="page-content" style="background-image: url('images/wizard-v1.jpg')">
+		<div class="wizard-v1-content">
+			<div class="wizard-form">
+		        <form class="form-register" id="form-register" action="#" method="post">
+		        	<div id="form-total">
+		        		<!-- SECTION 1 -->
+			            <h2>
+			            	<span class="step-icon"><i class="zmdi zmdi-account"></i></span>
+			            	<span class="step-number">Step 1</span>
+			            	<span class="step-text">Investor Infomation</span>
+			            </h2>
+			            <section>
+			                <div class="inner">
+								<div class="form-row">
+										<div class="form-holder">
+											<label for="idnumber">ID Number*</label>
+											<input type="text" placeholder="ID Number" class="form-control" id="idnumber" name="idnumber" required >
+										</div>
+								</div>
+								<div class="form-row">
+									<div class="form-holder form-holder-2">
+										<label for="fname">First Name*</label>
+										<input type="text" placeholder="First Name" class="form-control" id="fname" name="fname" required>
+									</div>
+									<div class="form-holder form-holder-2">
+										<label for="sname">Surname*</label>
+										<input type="text" placeholder="Surname" class="form-control" id="sname" name="sname" required>
+									</div>
+								</div>
+								<div class="form-row">
+									<div class="form-holder form-holder-2">
+										<label for="email">Email Address*</label>
+										<input type="email" placeholder="Your Email" class="form-control" id="email" name="email" required pattern="[^@]+@[^@]+.[a-zA-Z]{2,6}">
+									</div>
+								</div>
+
+							</div>
+			            </section>
+						<!-- SECTION 2 -->
+			            <h2>
+			            	<span class="step-icon"><i class="zmdi zmdi-money"></i></span>
+			            	<span class="step-number">Step 2</span>
+			            	<span class="step-text">Withdrawal Infomation</span>
+			            </h2>
+			            <section>
+			                <div class="inner">
+								<div class="form-row">
+									<div class="form-holder form-holder-2">
+										<label for="product-type">Product Type</label>
+										<select name="product-type" id="product-type" class="form-control">
+											<option value="" disabled selected>Select Product Type</option>
+											<option value="RETIREMENT">RETIREMENT</option>
+											<option value="SAVINGS">SAVINGS</option>
+										</select>
+									</div>
+								</div>
+								<div class="form-row">
+									<div class="form-holder form-holder-3">
+										<label for="amount">Withdrawal Amount*</label>
+										<input type="number" name="amount" class="number" id="amount"
+											   placeholder="Amount you wish to withdraw" required>
+									</div>
+								</div>
+								<div class="form-row">
+									<div class="form-holder form-holder-3">
+										<label for="bank-name">Bank Name*</label>
+										<input type="text" name="bank-name" class="number"
+											   id="bank-name" placeholder="Bank Name" required>
+									</div>
+								</div>
+								<div class="form-row">
+									<div class="form-holder form-holder-3">
+										<label for="acc_num">Account Number*</label>
+										<input type="text" name="acc_num" class="number" id="acc_num"
+											   placeholder="Account Number" required>
+									</div>
+								</div>
+								<div class="form-row">
+									<div class="form-holder form-holder-3">
+										<label for="acc_type">Account Type</label>
+										<input type="text" name="acc_type" class="number" id="acc_type"
+											   placeholder="Account Type">
+									</div>
+								</div>
+							</div>
+			            </section>
+			            <!-- SECTION 3 -->
+			            <h2>
+			            	<span class="step-icon"><i class="zmdi zmdi-receipt"></i></span>
+			            	<span class="step-number">Step 3</span>
+			            	<span class="step-text">Confirm Your Withdrawal</span>
+			            </h2>
+			            <section>
+			                <div class="inner">
+			                	<h3>Withdrawal Details</h3>
+								<div class="form-row table-responsive">
+									<table class="table">
+										<tbody>
+											<tr class="space-row">
+												<th>First Name:</th>
+												<td id="fname-val"></td>
+											</tr>
+											<tr class="space-row">
+												<th>Surname:</th>
+												<td id="sname-val"></td>
+											</tr>
+											<tr class="space-row">
+												<th>Contact Number:</th>
+												<td id="contact-val"></td>
+											</tr>
+											<tr class="space-row">
+												<th>Email Address:</th>
+												<td id="email-val"></td>
+											</tr>
+											<tr class="space-row">
+												<th>Product Type:</th>
+												<td id="product-type-val"></td>
+											</tr>
+											<tr class="space-row">
+												<th>Amount:</th>
+												<td id="amount-val"></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+			            </section>
+		        	</div>
+		        </form>
+			</div>
+		</div>
+	</div>
+	<script src="js/jquery-3.3.1.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+	<script src="js/jquery.steps.js"></script>
+	<script src="js/main.js"></script>
+</body>
+</html>
