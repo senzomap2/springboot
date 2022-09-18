@@ -4,6 +4,8 @@
  */
 package com.senzo.investments.model.entity;
 
+import lombok.Data;
+
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -24,6 +26,7 @@ import javax.persistence.TemporalType;
  *
  * @author user
  */
+@Data
 @Entity
 @Table(name = "status_log")
 @NamedQueries({
@@ -47,74 +50,4 @@ public class StatusLog implements Serializable {
     @ManyToOne
     private Withdrawal withdrawal;
 
-    public StatusLog() {
-    }
-
-    public StatusLog(Integer logId) {
-        this.logId = logId;
-    }
-
-    public StatusLog(Integer logId, String currentStatus, Date statusTime) {
-        this.logId = logId;
-        this.currentStatus = currentStatus;
-        this.statusTime = statusTime;
-    }
-
-    public Integer getLogId() {
-        return logId;
-    }
-
-    public void setLogId(Integer logId) {
-        this.logId = logId;
-    }
-
-    public String getCurrentStatus() {
-        return currentStatus;
-    }
-
-    public void setCurrentStatus(String currentStatus) {
-        this.currentStatus = currentStatus;
-    }
-
-    public Date getStatusTime() {
-        return statusTime;
-    }
-
-    public void setStatusTime(Date statusTime) {
-        this.statusTime = statusTime;
-    }
-
-    public Withdrawal getWithdrawal() {
-        return withdrawal;
-    }
-
-    public void setWithdrawal(Withdrawal withdrawal) {
-        this.withdrawal = withdrawal;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (logId != null ? logId.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof StatusLog)) {
-            return false;
-        }
-        StatusLog other = (StatusLog) object;
-        if ((this.logId == null && other.logId != null) || (this.logId != null && !this.logId.equals(other.logId))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "com.mycompany.mavenproject1.StatusLog[ logId=" + logId + " ]";
-    }
-    
 }

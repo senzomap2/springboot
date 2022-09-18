@@ -7,12 +7,31 @@ import com.senzo.investments.repository.InvestorProductRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class InvestorProductService {
     @Autowired
     InvestorProductRepo investorProductRepo;
 
     public InvestorProduct findByProductId(int productId, int investorId){
-        return investorProductRepo.findByProductAndInvestorDetails(new Product(productId),new InvestorDetails(investorId));
+        Product product = new Product();
+        product.setProductId(productId);
+        InvestorDetails investorDetails = new InvestorDetails();
+        investorDetails.setInvestorId(investorId);
+        return investorProductRepo.findByProductAndInvestorDetails(product,investorDetails);
+    }
+
+    public void deleteAll(){
+        investorProductRepo.deleteAll();
+    }
+    public InvestorProduct save(InvestorProduct investorProduct){
+        return investorProductRepo.save(investorProduct);
+    }
+
+    public List<InvestorProduct> findByInvestor(Integer investorId) {
+        InvestorDetails investorDetails = new InvestorDetails();
+        investorDetails.setInvestorId(investorId);
+        return investorProductRepo.findByInvestorDetails(investorDetails);
     }
 }

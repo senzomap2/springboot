@@ -4,6 +4,10 @@
  */
 package com.senzo.investments.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -28,9 +32,7 @@ import javax.persistence.TemporalType;
  * @author user
  */
 @Entity
-@Table(name = "withdrawal")
-@NamedQueries({
-    @NamedQuery(name = "Withdrawal.findAll", query = "SELECT w FROM Withdrawal w")})
+@Data
 public class Withdrawal implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -38,6 +40,7 @@ public class Withdrawal implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "withdrawal_id")
+    @JsonIgnore
     private Integer withdrawalId;
     @Basic(optional = false)
     @Column(name = "withdrawal_time")
@@ -45,108 +48,16 @@ public class Withdrawal implements Serializable {
     private Date withdrawalTime;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "withdrawal_amount")
+    @ApiModelProperty(name = "withdrawnAmount", notes = "amount withdrawn", example = "200.55")
     private BigDecimal withdrawalAmount;
     @Column(name = "opening_balance")
+    @ApiModelProperty(name = "openingBalance", notes = "amount investor had before withdrawal", example = "500.55")
     private BigDecimal openingBalance;
     @Column(name = "closing_balance")
+    @ApiModelProperty(name = "closingBalance", notes = "amount investor has after withdrawal", example = "300.00")
     private BigDecimal closingBalance;
-    @OneToMany(mappedBy = "withdrawal")
-    private List<StatusLog> statusLogList;
     @JoinColumn(name = "investor_product_id", referencedColumnName = "ivp_id")
     @ManyToOne
     private InvestorProduct investorProduct;
 
-    public Withdrawal() {
-    }
-
-    public Withdrawal(Integer withdrawalId) {
-        this.withdrawalId = withdrawalId;
-    }
-
-    public Withdrawal(Integer withdrawalId, Date withdrawalTime) {
-        this.withdrawalId = withdrawalId;
-        this.withdrawalTime = withdrawalTime;
-    }
-
-    public Integer getWithdrawalId() {
-        return withdrawalId;
-    }
-
-    public void setWithdrawalId(Integer withdrawalId) {
-        this.withdrawalId = withdrawalId;
-    }
-
-    public Date getWithdrawalTime() {
-        return withdrawalTime;
-    }
-
-    public void setWithdrawalTime(Date withdrawalTime) {
-        this.withdrawalTime = withdrawalTime;
-    }
-
-    public BigDecimal getWithdrawalAmount() {
-        return withdrawalAmount;
-    }
-
-    public void setWithdrawalAmount(BigDecimal withdrawalAmount) {
-        this.withdrawalAmount = withdrawalAmount;
-    }
-
-    public BigDecimal getOpeningBalance() {
-        return openingBalance;
-    }
-
-    public void setOpeningBalance(BigDecimal openingBefore) {
-        this.openingBalance = openingBefore;
-    }
-
-    public BigDecimal getClosingBalance() {
-        return closingBalance;
-    }
-
-    public void setClosingBalance(BigDecimal closingBalance) {
-        this.closingBalance = closingBalance;
-    }
-
-    public List<StatusLog> getStatusLogList() {
-        return statusLogList;
-    }
-
-    public void setStatusLogList(List<StatusLog> statusLogList) {
-        this.statusLogList = statusLogList;
-    }
-
-    public InvestorProduct getInvestorProduct() {
-        return investorProduct;
-    }
-
-    public void setInvestorProduct(InvestorProduct investorProduct) {
-        this.investorProduct = investorProduct;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (withdrawalId != null ? withdrawalId.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Withdrawal)) {
-            return false;
-        }
-        Withdrawal other = (Withdrawal) object;
-        if ((this.withdrawalId == null && other.withdrawalId != null) || (this.withdrawalId != null && !this.withdrawalId.equals(other.withdrawalId))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "com.mycompany.mavenproject1.Withdrawal[ withdrawalId=" + withdrawalId + " ]";
-    }
-    
 }

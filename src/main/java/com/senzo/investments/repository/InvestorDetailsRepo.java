@@ -6,7 +6,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface InvestorDetailsRepo extends CrudRepository<InvestorDetails, Long> {
+public interface InvestorDetailsRepo extends CrudRepository<InvestorDetails, Integer> {
     @Query(value = "select i from InvestorDetails i where i.idnumber=:idnumber")
-    public InvestorDetails findByIdNumber(String idnumber);
+    InvestorDetails findByIdNumber(String idnumber);
 }

@@ -4,6 +4,7 @@ import com.senzo.investments.enums.ProductEnum;
 import com.senzo.investments.model.WError;
 import com.senzo.investments.model.WithdrawalRequest;
 import com.senzo.investments.model.WithdrawalResponse;
+import com.senzo.investments.model.entity.BankDetails;
 import com.senzo.investments.model.entity.InvestorDetails;
 import com.senzo.investments.model.entity.InvestorProduct;
 import com.senzo.investments.model.entity.Withdrawal;
@@ -39,33 +40,37 @@ public class WithdrawalService {
      */
     public WithdrawalResponse processWithdrawal(WithdrawalRequest withdrawalRequest) {
         WithdrawalResponse response = new WithdrawalResponse();
-        String productType=withdrawalRequest.getProductType();
+        ProductEnum productType=withdrawalRequest.getProductType();
         String idNumber = withdrawalRequest.getIdNumber();
         InvestorDetails investor = investorService.getInvestorByIdNumber(idNumber);
-        ProductEnum productEnum = ProductEnum.valueOf(productType);
-        InvestorProduct investorProduct = investorProductService.findByProductId(productEnum.getProduct(),
-                investor.getInvestorId());
-
         List<String> errors = new ArrayList<>();
-        BigDecimal amount = withdrawalRequest.getAmount();
-        BigDecimal currentBalance = investorProduct.getCurrentbalance();
         if(investor==null){
-            response.setMessage("Failed to withdraw");
-            response.setStatusCode(406);
+            response.setMessage("Your id number does not exist in out system");
+            response.setStatusCode(401);
             errors.add(WError.WE_1404);
         }else{
+            InvestorProduct investorProduct = investorProductService.findByProductId(productType.getProduct(),
+                    investor.getInvestorId());
+            BigDecimal amount = withdrawalRequest.getAmount();
+            BigDecimal currentBalance = investorProduct.getCurrentbalance();
+            String errorMessage = "Validation Failed!";
             LocalDate currentDate = LocalDate.now();
-            Date dob = investor.getDob();
-            LocalDate localDob = dob.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-            long age = localDob.until(currentDate, ChronoUnit.YEARS);
-            if(productEnum==ProductEnum.RETIREMENT && age<65){
+            LocalDate dob = investor.getDob();
+            long age = dob.until(currentDate, ChronoUnit.YEARS);
+            if(productType==ProductEnum.RETIREMENT && age<65){
                 errors.add(WError.WE_1401);
+                response.setStatusCode(412);
+                response.setMessage(errorMessage);
             }
             if(amount.compareTo(currentBalance)>0){
                 errors.add(WError.WE_1402);
+                response.setStatusCode(412);
+                response.setMessage(errorMessage);
             }
             if(amount.compareTo(currentBalance.multiply(new BigDecimal("0.9")))>0){
                 errors.add(WError.WE_1403);
+                response.setStatusCode(412);
+                response.setMessage(errorMessage);
             }
             if(errors.isEmpty()){
                 Withdrawal withdrawal = new Withdrawal();
@@ -74,15 +79,32 @@ public class WithdrawalService {
                 withdrawal.setClosingBalance(closingBalance);
                 withdrawal.setOpeningBalance(currentBalance);
                 withdrawal.setInvestorProduct(investorProduct);
-                withdrawalRepo.save(withdrawal);
+                withdrawal.setWithdrawalTime(new Date());
+                BankDetails bankDetails = new BankDetails();
+                bankDetails.setBankName(withdrawalRequest.getBankName());
+                bankDetails.setAccountNumber(withdrawalRequest.getAccountNumber());
+                bankDetails.setInvestorDetails(investor);
+                investorService.saveBankDetails(bankDetails);
+                Withdrawal savedWithdrawal = withdrawalRepo.save(withdrawal);
+                response.setWithdrawal(savedWithdrawal);
+                investorProduct.setCurrentbalance(closingBalance);
+                investorProductService.save(investorProduct);
                 response.setStatusCode(200);
                 response.setMessage("Successfully captured withdrawal for "+
-                        investor.getInvestorName()+" "+investor.getSurname()+"\n"+
+                        investor.getInvestorName()+" "+investor.getSurname()+" of age: "+age+"\n"+
                         "opening balance: "+currentBalance+"\namount withdrawn: "+amount+"\n"+
                         "closing balance: "+closingBalance);
             }
         }
         response.setErrorList(errors);
         return response;
+    }
+
+    public void deleteAll(){
+        withdrawalRepo.deleteAll();
+    }
+
+    public Iterable<Withdrawal> findAll(){
+        return withdrawalRepo.findAll();
     }
 }

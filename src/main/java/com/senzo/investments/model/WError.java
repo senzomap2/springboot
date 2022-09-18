@@ -7,13 +7,10 @@ import org.springframework.beans.factory.annotation.Value;
 @Data
 @ApiModel(value = "Error")
 public class WError {
-    @Value("${error.withdrawal.WE_1401}")
-    public static String WE_1401;
-    @Value("${error.withdrawal.WE_1401}")
-    public static String WE_1402;
-    @Value("${error.withdrawal.WE_1401}")
-    public static String WE_1403;
-    @Value("${error.withdrawal.WE_1401}")
-    public static String WE_1404;
+
+    public final static String WE_1401="You must be at least 65 years to withdraw a retirement product";
+    public final static String WE_1402="You cannot withdraw more than your current balance";
+    public final static String WE_1403="You cannot withdraw an AMOUNT more than 90% of the current BALANCE";
+    public final static String WE_1404="We could not find your account with us, please try again";
 
 }

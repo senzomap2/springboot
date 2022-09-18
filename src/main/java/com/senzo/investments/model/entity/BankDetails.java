@@ -4,6 +4,8 @@
  */
 package com.senzo.investments.model.entity;
 
+import lombok.Data;
+
 import java.io.Serializable;
 import java.math.BigInteger;
 import javax.persistence.Basic;
@@ -22,6 +24,7 @@ import javax.persistence.Table;
  *
  * @author user
  */
+@Data
 @Entity
 @Table(name = "bank_details")
 @NamedQueries({
@@ -39,89 +42,11 @@ public class BankDetails implements Serializable {
     private String bankName;
     @Basic(optional = false)
     @Column(name = "account_number")
-    private BigInteger accountNumber;
+    private String accountNumber;
     @Column(name = "account_type")
     private String accountType;
     @JoinColumn(name = "investor_id", referencedColumnName = "investor_id")
     @ManyToOne
     private InvestorDetails investorDetails;
 
-    public BankDetails() {
-    }
-
-    public BankDetails(Integer bankDetailsId) {
-        this.bankDetailsId = bankDetailsId;
-    }
-
-    public BankDetails(Integer bankDetailsId, String bankName, BigInteger accountNumber) {
-        this.bankDetailsId = bankDetailsId;
-        this.bankName = bankName;
-        this.accountNumber = accountNumber;
-    }
-
-    public Integer getBankDetailsId() {
-        return bankDetailsId;
-    }
-
-    public void setBankDetailsId(Integer bankDetailsId) {
-        this.bankDetailsId = bankDetailsId;
-    }
-
-    public String getBankName() {
-        return bankName;
-    }
-
-    public void setBankName(String bankName) {
-        this.bankName = bankName;
-    }
-
-    public BigInteger getAccountNumber() {
-        return accountNumber;
-    }
-
-    public void setAccountNumber(BigInteger accountNumber) {
-        this.accountNumber = accountNumber;
-    }
-
-    public String getAccountType() {
-        return accountType;
-    }
-
-    public void setAccountType(String accountType) {
-        this.accountType = accountType;
-    }
-
-    public InvestorDetails getInvestorDetails() {
-        return investorDetails;
-    }
-
-    public void setInvestorDetails(InvestorDetails investorDetails) {
-        this.investorDetails = investorDetails;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (bankDetailsId != null ? bankDetailsId.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof BankDetails)) {
-            return false;
-        }
-        BankDetails other = (BankDetails) object;
-        if ((this.bankDetailsId == null && other.bankDetailsId != null) || (this.bankDetailsId != null && !this.bankDetailsId.equals(other.bankDetailsId))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "com.mycompany.mavenproject1.BankDetails[ bankDetailsId=" + bankDetailsId + " ]";
-    }
-    
 }

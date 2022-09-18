@@ -43,8 +43,6 @@ public class InvestorProduct implements Serializable {
     @Basic(optional = false)
     @Column(name = "currentbalance")
     private BigDecimal currentbalance;
-    @OneToMany(mappedBy = "investorProduct")
-    private List<Withdrawal> withdrawalList;
     @JoinColumn(name = "investor_id", referencedColumnName = "investor_id")
     @ManyToOne(optional = false)
     private InvestorDetails investorDetails;
